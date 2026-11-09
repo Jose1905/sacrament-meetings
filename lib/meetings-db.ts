@@ -22,7 +22,7 @@ const meetings: SacramentMeeting[] = [
   },
   {
     id: 2,
-    date: "2026-05-10",
+    date: "2026-11-08",
     meetingType: "regular",
     presiding: "Bishop Smith",
     conducting: "Sister Garcia",
@@ -41,7 +41,7 @@ const meetings: SacramentMeeting[] = [
   },
   {
     id: 3,
-    date: "2026-05-17",
+    date: "2026-11-15",
     meetingType: "regular",
     presiding: "Bishop Smith",
     conducting: "Brother Jones",
@@ -60,7 +60,7 @@ const meetings: SacramentMeeting[] = [
   },
   {
     id: 4,
-    date: "2026-05-24",
+    date: "2026-11-22",
     meetingType: "regular",
     presiding: "Bishop Smith",
     conducting: "Brother Patel",
@@ -79,7 +79,7 @@ const meetings: SacramentMeeting[] = [
   },
   {
     id: 5,
-    date: "2026-05-31",
+    date: "2026-11-29",
     meetingType: "regular",
     presiding: "Bishop Smith",
     conducting: "Sister Garcia",
