@@ -40,7 +40,8 @@ export default function Home() {
           width={900}
           height={500}
           sizes="(min-width: 640px) 50vw, 100vw"
-          priority
+          preload
+          fetchPriority="high"
           className="aspect-[3/2] w-full rounded-md object-cover"
         />
       </section>
