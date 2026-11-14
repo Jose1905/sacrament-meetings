@@ -7,11 +7,12 @@ export async function GET(
 ) {
     const { id: rawId } = await params;
     const id = Number(rawId);
-    const meeting = getMeetingById(id);
 
-    if (!Number.isInteger(id) || id <= 0) {
+    if (!/^\d+$/.test(rawId) || !Number.isSafeInteger(id) || id <= 0) {
         return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
     }
+
+    const meeting = await getMeetingById(id);
 
     if (!meeting) {
         return NextResponse.json({ error: 'Not found' }, { status: 404 });

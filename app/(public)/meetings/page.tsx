@@ -1,8 +1,20 @@
 import MeetingCard from "@/components/MeetingCard";
-import { getMeetings } from "@/lib/meetings-db";
+import { MeetingSearch } from "@/components/MeetingSearch";
+import { Pagination } from "@/components/Pagination";
+import { getMeetings, getMeetingsTotalPages } from "@/lib/meetings-db";
 
-export default function MeetingsPage() {
-	const meetings = getMeetings();
+export default async function MeetingsPage(props: {
+	searchParams?: Promise<{ query?: string; page?: string; date?: string }>;
+}) {
+	const searchParams = await props.searchParams;
+	const query = searchParams?.query ?? '';
+	const currentPage = Number(searchParams?.page) || 1;
+	const date = searchParams?.date ?? '';
+
+	const [meetings, totalPages] = await Promise.all([
+		getMeetings(query, currentPage, date),
+		getMeetingsTotalPages(query, date)
+	])
 
 	return (
 		<main className="mx-auto w-full max-w-6xl flex-1 px-gutter py-10 sm:py-14">
@@ -23,11 +35,13 @@ export default function MeetingsPage() {
 						{meetings.length} scheduled meetings
 					</p>
 				</div>
+				<MeetingSearch />
 				<div className="grid gap-4 lg:grid-cols-2">
 					{meetings.map((meeting) => (
 						<MeetingCard key={meeting.id} meeting={meeting} />
 					))}
 				</div>
+				<Pagination totalPages={totalPages} />
 			</section>
 		</main>
 	);

@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getMeetings } from "@/lib/meetings-db";
 
 export default function Home() {
-  const meetings = getMeetings();
-
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-gutter py-10 sm:py-14">
       <section className="grid items-center gap-8 sm:grid-cols-[minmax(0,1fr)_minmax(18rem,0.9fr)] sm:gap-12">
@@ -16,7 +15,8 @@ export default function Home() {
             Sacrament meetings
           </h1>
           <p className="mt-4 max-w-lg text-base leading-7 text-muted">
-            Find this Sunday&apos;s meeting or review the ward schedule, speakers, hymns, and announcements.
+            Find this Sunday&apos;s meeting or review the ward schedule,
+            speakers, hymns, and announcements.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
@@ -32,7 +32,9 @@ export default function Home() {
               View all meetings
             </Link>
           </div>
-          <p className="mt-5 text-sm text-muted">{meetings.length} meetings in the schedule</p>
+          <Suspense fallback={<p>Loading meetings info…</p>}>
+            <MeetingsCount />
+          </Suspense>
         </div>
         <Image
           src="/chapel.jpg"
@@ -46,5 +48,15 @@ export default function Home() {
         />
       </section>
     </main>
+  );
+}
+
+async function MeetingsCount() {
+  const meetings = await getMeetings();
+
+  return (
+    <p className="mt-5 text-sm text-muted">
+      {meetings.length} meetings in the schedule
+    </p>
   );
 }
