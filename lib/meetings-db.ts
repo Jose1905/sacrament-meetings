@@ -46,6 +46,11 @@ export async function getMeetings(
   return rows as unknown as SacramentMeeting[];
 }
 
+export async function getMeetingsCount(): Promise<number> {
+  const rows = await sql`SELECT COUNT(*) FROM meetings`;
+  return Number(rows[0].count);
+}
+
 export async function getMeetingsTotalPages(
   query: string = '',
   date: string = '',

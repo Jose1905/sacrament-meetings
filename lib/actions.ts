@@ -186,22 +186,29 @@ export async function updateMeeting(id: number, formData: FormData) {
    } =
     parsed.data;
 
-  await updateMeetingInDb(id, {
-    id,
-    date,
-    meetingType: meeting_type,
-    presiding,
-    conducting,
-    announcements,
-    openingHymn,
-    openingPrayer,
-    wardBusiness,
-    stakeBusiness,
-    sacramentHymn,
-    speakers,
-    closingHymn,
-    closingPrayer,
-  });
+  try {
+    await updateMeetingInDb(id, {
+      id,
+      date,
+      meetingType: meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      openingHymn,
+      openingPrayer,
+      wardBusiness,
+      stakeBusiness,
+      sacramentHymn,
+      speakers,
+      closingHymn,
+      closingPrayer,
+    })
+    revalidatePath("/meetings");
+  } catch (error) {
+    throw new Error(
+      `Database Error: Failed to edit meeting. Error: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
 
   revalidatePath("/meetings");
   redirect("/meetings");

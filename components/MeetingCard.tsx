@@ -18,13 +18,13 @@ function formatMeetingDate(date: string): string {
 
 export default function MeetingCard({ meeting }: MeetingCardProps) {
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <Link
         href={`/meetings/${meeting.id}`}
-        className="group block rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        className="group block flex-1 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         aria-label={`View agenda for ${formatMeetingDate(meeting.date)}`}
       >
-        <article className="h-full overflow-hidden rounded-md border border-line bg-surface transition-colors group-hover:border-brand/50">
+        <article className="flex h-full flex-col overflow-hidden rounded-md border border-line bg-surface transition-colors group-hover:border-brand/50">
           <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
@@ -39,7 +39,7 @@ export default function MeetingCard({ meeting }: MeetingCardProps) {
             </span>
           </div>
 
-          <div className="grid gap-6 p-5 sm:grid-cols-2">
+          <div className="grid min-h-48 flex-1 gap-6 p-5 sm:grid-cols-2">
             <section aria-label="Meeting leadership">
               <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-muted">
                 Leadership

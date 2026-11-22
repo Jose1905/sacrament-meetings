@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { getMeetings } from "@/lib/meetings-db";
+import { getMeetingsCount } from "@/lib/meetings-db";
 
 export default function Home() {
   return (
@@ -52,11 +52,19 @@ export default function Home() {
 }
 
 async function MeetingsCount() {
-  const meetings = await getMeetings();
+  let count: number | null = null;
+
+  try {
+    count = await getMeetingsCount();
+  } catch (error) {
+    console.error("Failed to load meeting count:", error);
+  }
+
+  if (count === null) return null;
 
   return (
     <p className="mt-5 text-sm text-muted">
-      {meetings.length} meetings in the schedule
+      {count} {count === 1 ? "meeting" : "meetings"} in the schedule
     </p>
   );
 }

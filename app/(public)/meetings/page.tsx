@@ -39,15 +39,9 @@ export default async function MeetingsPage(props: {
       <section aria-labelledby="meetings-title">
         <div className="mb-8 flex flex-col gap-3 border-b border-line pb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+            <p className="text-3xl font-semibold sm:text-4xl">
               Ward calendar
             </p>
-            <h1
-              id="meetings-title"
-              className="text-3xl font-semibold sm:text-4xl"
-            >
-              All meetings
-            </h1>
             <p className="mt-2 max-w-xl text-sm leading-6 text-muted">
               Review meeting assignments, hymns, speakers, and announcements.
             </p>
@@ -57,7 +51,7 @@ export default async function MeetingsPage(props: {
           </p>
         </div>
         <MeetingSearch />
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid items-stretch gap-4 lg:grid-cols-2">
           {meetings.map((meeting) => (
             <MeetingCard key={meeting.id} meeting={meeting} />
           ))}
