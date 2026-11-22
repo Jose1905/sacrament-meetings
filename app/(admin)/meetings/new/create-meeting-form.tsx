@@ -45,6 +45,7 @@ export default function CreateMeetingForm() {
           id="meeting_type"
           name="meeting_type"
           className="block w-full rounded-md border px-3 py-2"
+          aria-describedby="meeting_type-error"
           required
         >
           <option value="regular">Regular</option>
@@ -52,6 +53,13 @@ export default function CreateMeetingForm() {
           <option value="stake">Stake</option>
           <option value="general">General</option>
         </select>
+        <div id="meeting_type-error" aria-live="polite">
+          {state.errors?.meeting_type?.map((error) => (
+            <p key={error} className="mt-1 text-sm text-red-600">
+              {error}
+            </p>
+          ))}
+        </div>
       </div>
 
       {["presiding", "conducting", "openingPrayer", "closingPrayer"].map(
@@ -69,9 +77,10 @@ export default function CreateMeetingForm() {
               type="text"
               minLength={2}
               className="block w-full rounded-md border px-3 py-2"
+              aria-describedby={`${name}-error`}
               required
             />
-            <div aria-live="polite">
+            <div id={`${name}-error`} aria-live="polite">
               {state.errors?.[
                 name as keyof NonNullable<State["errors"]>
               ]?.map((error) => (
@@ -123,7 +132,15 @@ export default function CreateMeetingForm() {
           name="announcements"
           rows={3}
           className="block w-full rounded-md border px-3 py-2"
+          aria-describedby="announcements-error"
         />
+        <div id="announcements-error" aria-live="polite">
+          {state.errors?.announcements?.map((error) => (
+            <p key={error} className="mt-1 text-sm text-red-600">
+              {error}
+            </p>
+          ))}
+        </div>
       </div>
 
       <div>
@@ -136,7 +153,15 @@ export default function CreateMeetingForm() {
           rows={3}
           defaultValue="[]"
           className="block w-full rounded-md border px-3 py-2 font-mono text-sm"
+          aria-describedby="wardBusiness-error"
         />
+        <div id="wardBusiness-error" aria-live="polite">
+          {state.errors?.wardBusiness?.map((error) => (
+            <p key={error} className="mt-1 text-sm text-red-600">
+              {error}
+            </p>
+          ))}
+        </div>
         <p className="mt-1 text-xs text-slate-500">
           Example: {"[{\"description\":\"Welcome visitors\"}]"}
         </p>
@@ -149,10 +174,18 @@ export default function CreateMeetingForm() {
           type="checkbox"
           value="true"
           className="h-4 w-4"
+          aria-describedby="stakeBusiness-error"
         />
         <label htmlFor="stakeBusiness" className="text-sm font-medium">
           Stake Business
         </label>
+        <div id="stakeBusiness-error" aria-live="polite">
+          {state.errors?.stakeBusiness?.map((error) => (
+            <p key={error} className="mt-1 text-sm text-red-600">
+              {error}
+            </p>
+          ))}
+        </div>
       </div>
 
       <div>
@@ -165,7 +198,15 @@ export default function CreateMeetingForm() {
           rows={4}
           defaultValue="[]"
           className="block w-full rounded-md border px-3 py-2 font-mono text-sm"
+          aria-describedby="speakers-error"
         />
+        <div id="speakers-error" aria-live="polite">
+          {state.errors?.speakers?.map((error) => (
+            <p key={error} className="mt-1 text-sm text-red-600">
+              {error}
+            </p>
+          ))}
+        </div>
         <p className="mt-1 text-xs text-slate-500">
           Example:{" "}
           {`[{"name":"Jane Doe","topic":"Faith","type":"speaker"}]`}

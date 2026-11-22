@@ -156,7 +156,11 @@ export async function createMeeting(
   redirect("/meetings");
 }
 
-export async function updateMeeting(id: number, formData: FormData) {
+export async function updateMeeting(
+  _prevState: State,
+  id: number,
+  formData: FormData
+): Promise<State> {
   const raw = meetingFormValues(formData);
 
   const meeting = await getMeetingById(id);
