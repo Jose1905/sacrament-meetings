@@ -2,19 +2,39 @@ import MeetingCard from "@/components/MeetingCard";
 import { MeetingSearch } from "@/components/MeetingSearch";
 import { Pagination } from "@/components/Pagination";
 import { getMeetings, getMeetingsTotalPages } from "@/lib/meetings-db";
+import { redirect } from "next/navigation";
 
 export default async function MeetingsPage(props: {
 	searchParams?: Promise<{ query?: string; page?: string; date?: string }>;
 }) {
 	const searchParams = await props.searchParams;
 	const query = searchParams?.query ?? '';
-	const currentPage = Number(searchParams?.page) || 1;
 	const date = searchParams?.date ?? '';
 
-	const [meetings, totalPages] = await Promise.all([
-		getMeetings(query, currentPage, date),
-		getMeetingsTotalPages(query, date)
-	])
+	const totalPages = await getMeetingsTotalPages(query, date);
+
+	const rawPage = searchParams?.page;
+	const parsedPage =
+		rawPage && /^\d+$/.test(rawPage) ? Number(rawPage) : 1;
+	const requestedPage =
+		Number.isSafeInteger(parsedPage) && parsedPage >= 1
+			? parsedPage
+			: 1;
+
+	const pageLimit = Math.max(1, totalPages);
+	const currentPage = Math.min(requestedPage, pageLimit);
+
+	if (rawPage !== undefined && rawPage !== String(currentPage)) {
+		const params = new URLSearchParams();
+
+		if (query) params.set("query", query);
+		if (date) params.set("date", date);
+		params.set("page", String(currentPage));
+
+		redirect(`/meetings?${params.toString()}`);
+	}
+
+	const meetings = await getMeetings(query, currentPage, date);
 
 	return (
 		<main className="mx-auto w-full max-w-6xl flex-1 px-gutter py-10 sm:py-14">
