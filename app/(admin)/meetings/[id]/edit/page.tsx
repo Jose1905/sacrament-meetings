@@ -1,34 +1,51 @@
 import { Suspense } from "react";
+import { getMeetingById } from "@/lib/meetings-db";
+import { notFound } from "next/navigation";
+import EditMeetingForm from "./edit-meeting-form";
 
-export default async function EditMeetingPage({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
-	return (
-		<main className="mx-auto w-full max-w-6xl flex-1 px-gutter py-10 sm:py-14">
-			<Suspense fallback={<p className="text-sm text-muted">Loading meeting…</p>}>
-				<EditMeetingContent params={params} />
-			</Suspense>
-		</main>
-	);
+type EditPageProps = { params: Promise<{ id: string }> };
+
+async function EditMeetingContent({ params }: EditPageProps) {
+  const { id: routeId } = await params;
+  const id = Number(routeId);
+
+  if (!Number.isSafeInteger(id) || id < 1) {
+    notFound();
+  }
+
+  const meeting = await getMeetingById(id);
+  if (!meeting) {
+    notFound();
+  }
+
+  return (
+    <main className="mx-auto w-full max-w-6xl flex-1 px-gutter py-10 sm:py-14">
+      <section aria-labelledby="edit-meeting-title">
+        <div className="mb-8 border-b border-line pb-6">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+            Meeting administration
+          </p>
+          <h1 id="edit-meeting-title" className="text-3xl font-semibold sm:text-4xl">
+            Edit meeting
+          </h1>
+        </div>
+
+        <EditMeetingForm id={id} meeting={meeting} />
+      </section>
+    </main>
+  );
 }
 
-async function EditMeetingContent({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
-	const { id } = await params;
-
-	return (
-		<section aria-labelledby="edit-meeting-title">
-			<h1 id="edit-meeting-title" className="text-3xl font-semibold">
-				Edit meeting
-			</h1>
-			<p className="mt-3 text-sm text-muted">
-				Edit meeting page placeholder for meeting {id}.
-			</p>
-		</section>
-	);
+export default function Page({ params }: EditPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <main className="mx-auto w-full max-w-6xl px-gutter py-12">
+          <p role="status">Loading meeting form...</p>
+        </main>
+      }
+    >
+      <EditMeetingContent params={params} />
+    </Suspense>
+  );
 }

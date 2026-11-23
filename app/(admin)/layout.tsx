@@ -1,34 +1,5 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import type { ReactNode } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Sacrament Meetings",
-  description: "A simple schedule for ward sacrament meetings.",
-};
-
-export default function AdminLayout({ children }: LayoutProps<"/">) {
-  return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-screen flex-col">
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
+export default function AdminLayout({ children }: { children: ReactNode }) {
+  return <div className="flex flex-1 flex-col">{children}</div>;
 }

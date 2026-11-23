@@ -1,4 +1,5 @@
 import type { SacramentMeeting } from "@/lib/types";
+import { deleteMeeting } from "@/lib/actions";
 import Link from "next/link";
 
 interface MeetingDetailProps {
@@ -139,6 +140,23 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
             )}
           </section>
         </section>
+      </div>
+
+      <div className="mt-4 flex gap-2">
+        <Link
+          href={`/meetings/${meeting.id}/edit`}
+          className="inline-flex min-h-9 items-center justify-center rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          Edit
+        </Link>
+        <form action={deleteMeeting.bind(null, meeting.id)}>
+          <button
+            type="submit"
+            className="min-h-9 rounded-md border border-accent/30 bg-surface px-4 py-2 text-sm font-semibold text-accent transition-colors hover:border-accent hover:bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            Delete
+          </button>
+        </form>
       </div>
 
       <div className="border-t border-line px-5 py-4 sm:px-7">
