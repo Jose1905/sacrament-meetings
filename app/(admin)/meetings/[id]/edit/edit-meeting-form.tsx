@@ -12,30 +12,10 @@ interface EditMeetingFormProps {
 const initialState: State = { message: null, errors: {} };
 
 export default function EditMeetingForm({ id, meeting }: EditMeetingFormProps) {
-  const updateMeetingWithId = async (
-    _prevState: State,
+  const updateMeetingWithId = (
+    prevState: State,
     formData: FormData,
-  ): Promise<State> => {
-    try {
-      await updateMeeting(id, formData);
-      return { message: null, errors: {} };
-    } catch (error) {
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "digest" in error &&
-        typeof error.digest === "string" &&
-        error.digest.startsWith("NEXT_REDIRECT")
-      ) {
-        throw error;
-      }
-
-      return {
-        message: error instanceof Error ? error.message : "Failed to edit meeting.",
-        errors: {},
-      };
-    }
-  };
+  ): Promise<State> => updateMeeting(prevState, id, formData);
 
   const [state, formAction, isPending] = useActionState(
     updateMeetingWithId,

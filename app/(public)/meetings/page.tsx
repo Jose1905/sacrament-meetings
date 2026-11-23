@@ -47,7 +47,7 @@ export default async function MeetingsPage(props: {
             </p>
           </div>
           <p className="text-sm font-medium text-muted">
-            {meetings.length} scheduled meetings
+            {meetings.length} meetings displayed
           </p>
         </div>
         <MeetingSearch />
