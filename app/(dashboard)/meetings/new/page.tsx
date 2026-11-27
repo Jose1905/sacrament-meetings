@@ -1,4 +1,4 @@
-import CreateMeetingForm from "./create-meeting-form";
+import CreateMeetingForm from "@/components/create-meeting-form";
 
 export default async function NewMeeetingPage() {
   return (

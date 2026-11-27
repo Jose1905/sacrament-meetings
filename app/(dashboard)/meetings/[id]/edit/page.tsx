@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { getMeetingById } from "@/lib/meetings-db";
 import { notFound } from "next/navigation";
-import EditMeetingForm from "./edit-meeting-form";
+import EditMeetingForm from "@/components/edit-meeting-form";
 
 type EditPageProps = { params: Promise<{ id: string }> };
 

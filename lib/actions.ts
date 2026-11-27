@@ -10,6 +10,8 @@ import {
   getMeetingById,
 } from "./meetings-db";
 import type { Hymn } from './types';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 const hymnSchema = z.object({
   number: z.number(),
@@ -228,4 +230,23 @@ export async function deleteMeeting(id: number) {
   }
   revalidatePath("/meetings");
   redirect("/meetings");
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid email or password.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error; // re-throw so Next.js handles redirects correctly
+  }
 }
